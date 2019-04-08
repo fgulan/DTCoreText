@@ -321,6 +321,15 @@
     return NSMakeRange(NSNotFound, 0);
 }
 
+- (BOOL)endsWithNewLine
+{
+	if (self.length <= 0) {
+		return NO;
+	}
+	unichar last = [self.string characterAtIndex:self.length - 1];
+	return [[NSCharacterSet newlineCharacterSet] characterIsMember:last];
+}
+
 #pragma mark HTML Encoding
 
 #ifndef COVERAGE

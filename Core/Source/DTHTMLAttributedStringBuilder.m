@@ -28,6 +28,7 @@
 #import "NSString+HTML.h"
 #import "NSCharacterSet+HTML.h"
 #import "NSMutableAttributedString+HTML.h"
+#import "NSAttributedString+DTCoreText.h"
 
 #if DEBUG_LOG_METRICS
 #import "NSString+DTFormatNumbers.h"
@@ -85,7 +86,9 @@
 	BOOL _ignoreParseEvents; // ignores events from parser after first HTML tag was finished
 	BOOL _ignoreInlineStyles; // ignores style blocks attached on elements
 	BOOL _preserverDocumentTrailingSpaces; // don't remove spaces at end of document
-	
+	BOOL _lastElementWasLineBreak; // trim next text if previous element was a line break
+
+
 	DTHTMLParser  *_parser;
 }
 
@@ -933,13 +936,18 @@
 			// ignore whitespace following a BR
 			if ([previousTag isKindOfClass:[DTBreakHTMLElement class]])
 			{
+				strongSelf->_lastElementWasLineBreak = YES;
 				return;
 			}
 		}
 		
 		// adds a text node to the current node
 		DTTextHTMLElement *textNode = [[DTTextHTMLElement alloc] init];
-		textNode.text = string;
+		NSString *text = string;
+		if (strongSelf->_lastElementWasLineBreak) {
+			text = [text stringByTrimmingLeadingSpace];
+		}
+		textNode.text = text;
 		
 		[textNode inheritAttributesFromElement:strongSelf->_currentTag];
 		[textNode interpretAttributes];
@@ -953,6 +961,9 @@
 		if (theTag == strongSelf->_bodyElement)
 		{
 			dispatch_group_async(strongSelf->_stringAssemblyGroup, strongSelf->_stringAssemblyQueue, ^{
+				if ([strongSelf->_tmpString endsWithNewLine] && !textNode.preserveNewlines) {
+					textNode.text = [text stringByTrimmingLeadingSpace];
+				}
 				[strongSelf->_tmpString appendAttributedString:[textNode attributedString]];
 				theTag.didOutput = YES;
 			});
@@ -965,7 +976,8 @@
 			
 			return;
 		}
-		
+
+		strongSelf->_lastElementWasLineBreak = NO;
 	});
 }
 

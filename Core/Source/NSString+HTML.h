@@ -43,6 +43,11 @@
  */
 - (NSString *)stringByNormalizingWhitespace;
 
+/**
+ Return a copy of this string with trimmed leading space character (not all whitespaces, only standard space)
+ @returns A copy of this string with trimmed leading space characters
+ */
+- (NSString *)stringByTrimmingLeadingSpace;
 
 /** 
  Determines if the first character of this string is in the parameter characterSet. 

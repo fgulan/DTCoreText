@@ -102,6 +102,20 @@ static NSDictionary *entityReverseLookup = nil;
 	return retString;
 }
 
+- (NSString *)stringByTrimmingLeadingSpace
+{
+	return [self stringByTrimmingLeadingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+}
+
+- (NSString *)stringByTrimmingLeadingCharactersInSet:(NSCharacterSet *)characterSet
+{
+	NSRange rangeOfFirstWantedCharacter = [self rangeOfCharacterFromSet:[characterSet invertedSet]];
+	if (rangeOfFirstWantedCharacter.location == NSNotFound) {
+		return @"";
+	}
+	return [self substringFromIndex:rangeOfFirstWantedCharacter.location];
+}
+
 - (BOOL)hasPrefixCharacterFromSet:(NSCharacterSet *)characterSet
 {
 	if (![self length])

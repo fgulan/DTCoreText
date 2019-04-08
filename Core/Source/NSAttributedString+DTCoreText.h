@@ -87,6 +87,11 @@
  */
 - (NSRange)rangeOfFieldAtIndex:(NSUInteger)location;
 
+/**
+ Checks if ends with new line
+ */
+- (BOOL)endsWithNewLine;
+
 #ifndef COVERAGE
 // exclude method from coverage testing, those are just convenience methods
 
@@ -119,6 +124,7 @@
 - (NSString *)plainTextString;
 
 #endif
+
 
 /**
  @name Creating Special Attributed Strings
