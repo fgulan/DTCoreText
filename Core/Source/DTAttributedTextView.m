@@ -10,9 +10,9 @@
 
 #import "DTAttributedTextView.h"
 #import "DTCoreText.h"
-#import "DTBlockFunctions.h"
 
 #import <DTFoundation/DTTiledLayerWithoutFade.h>
+#import <DTFoundation/DTBlockFunctions.h>
 
 
 @interface DTAttributedTextView ()
@@ -130,7 +130,7 @@
 
 - (void)relayoutText
 {
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	DTBlockPerformSyncIfOnMainThreadElseAsync(^{
 		DTAttributedTextView *strongSelf = weakSelf;
 		
@@ -168,7 +168,7 @@
 #pragma mark Notifications
 - (void)contentViewDidLayout:(NSNotification *)notification
 {
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	DTBlockPerformSyncIfOnMainThreadElseAsync(^{
 		DTAttributedTextView *strongSelf = weakSelf;
 		

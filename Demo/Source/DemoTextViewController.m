@@ -11,7 +11,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 #import "DTTiledLayerWithoutFade.h"
-#import "DTWebVideoView.h"
+#import "DemoWebVideoView.h"
 
 
 @interface DemoTextViewController ()
@@ -85,12 +85,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return YES;
-}
-
 
 #pragma mark UIViewController
 
@@ -267,11 +261,6 @@
 {
 	// prevent hiding of status bar in landscape because this messes up the layout guide calc
 	return NO;
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-	_needsAdjustInsetsOnLayout = YES;
 }
 
 // this is only called on >= iOS 5
@@ -587,7 +576,7 @@
 	}
 	else if ([attachment isKindOfClass:[DTIframeTextAttachment class]])
 	{
-		DTWebVideoView *videoView = [[DTWebVideoView alloc] initWithFrame:frame];
+		DemoWebVideoView *videoView = [[DemoWebVideoView alloc] initWithFrame:frame];
 		videoView.attachment = attachment;
 		
 		return videoView;
@@ -757,7 +746,7 @@
 		// layout might have changed due to image sizes
 		// do it on next run loop because a layout pass might be going on
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[_textView relayoutText];
+			[self->_textView relayoutText];
 		});
 	}
 }

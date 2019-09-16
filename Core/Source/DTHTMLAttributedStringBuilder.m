@@ -348,7 +348,7 @@
 	// don't remove spaces at end of document
 	_preserverDocumentTrailingSpaces = [[_options objectForKey:DTDocumentPreserveTrailingSpaces] boolValue];
 	
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	__block BOOL result;
 	dispatch_group_async(_dataParsingGroup, _dataParsingQueue, ^{ result = [weakSelf.self->_parser parse]; });
 	
@@ -705,7 +705,7 @@
 
 - (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict
 {
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
 		DTHTMLAttributedStringBuilder *strongSelf = weakSelf;
 
@@ -817,7 +817,7 @@
 - (void)parser:(DTHTMLParser *)parser didEndElement:(NSString *)elementName
 {
 
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
 		@autoreleasepool {
 			DTHTMLAttributedStringBuilder *strongSelf = weakSelf;
@@ -907,7 +907,7 @@
 
 - (void)parser:(DTHTMLParser *)parser foundCharacters:(NSString *)string
 {
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
 		DTHTMLAttributedStringBuilder *strongSelf = weakSelf;
 		if (strongSelf->_ignoreParseEvents)
@@ -983,7 +983,7 @@
 
 - (void)parser:(DTHTMLParser *)parser foundCDATA:(NSData *)CDATABlock
 {
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
 		DTHTMLAttributedStringBuilder *strongSelf = weakSelf;
 		
@@ -1005,7 +1005,7 @@
 
 - (void)parserDidEndDocument:(DTHTMLParser *)parser
 {
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
 		DTHTMLAttributedStringBuilder *strongSelf = weakSelf;
 		

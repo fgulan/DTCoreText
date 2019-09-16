@@ -14,7 +14,8 @@
 #import "DTAccessibilityViewProxy.h"
 #import "DTAccessibilityElement.h"
 #import "DTCoreTextLayoutFrameAccessibilityElementGenerator.h"
-#import "DTBlockFunctions.h"
+
+#import <DTFoundation/DTBlockFunctions.h>
 
 #if !__has_feature(objc_arc)
 #error THIS CODE MUST BE COMPILED WITH ARC ENABLED!
@@ -503,7 +504,7 @@ static Class _layerClassToUseForDTAttributedTextContentView = nil;
 
 - (void)relayoutText
 {
-	__weak typeof(self) weakSelf = self;
+	DT_WEAK_VARIABLE typeof(self) weakSelf = self;
 	DTBlockPerformSyncIfOnMainThreadElseAsync(^{
 		DTAttributedTextContentView *strongSelf = weakSelf;
 		// Make sure we actually have a superview and a previous layout before attempting to relayout the text.
