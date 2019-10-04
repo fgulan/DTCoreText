@@ -1014,7 +1014,7 @@
 		if (!strongSelf->_preserverDocumentTrailingSpaces) {
 			dispatch_group_async(strongSelf->_stringAssemblyGroup, strongSelf->_stringAssemblyQueue, ^{
 				// trim off white space at end
-				while ([[strongSelf->_tmpString string] hasSuffixCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]])
+				while ([[strongSelf->_tmpString string] hasSuffixCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]])
 				{
 					[strongSelf->_tmpString deleteCharactersInRange:NSMakeRange([strongSelf->_tmpString length]-1, 1)];
 				}
